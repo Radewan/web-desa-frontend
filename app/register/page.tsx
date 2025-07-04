@@ -37,7 +37,7 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterForm) => {
     try {
       const response = await UserApi.userRegister(data);
-      toast("Event has been created", {
+      toast("User has been created", {
         description: `${new Date().toLocaleString()}`,
         closeButton: true,
         duration: 3000,

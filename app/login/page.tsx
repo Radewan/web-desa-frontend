@@ -36,7 +36,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
       const response = await UserApi.userLogin(data);
-      toast("Event has been created", {
+      toast("User has been login", {
         description: `${new Date().toLocaleString()}`,
         closeButton: true,
         duration: 3000,

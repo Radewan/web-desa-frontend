@@ -3,11 +3,17 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tentangOpen, setTentangOpen] = useState(false); // 👈 dropdown Tentang
+  const [tentangOpen, setTentangOpen] = useState(false);
+  const [token, setToken] = useState<string | null>(null); // ✅
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    setToken(savedToken);
+  }, []);
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 shadow-md bg-white sticky top-0 z-50">
@@ -20,7 +26,6 @@ export const Navbar = () => {
         <Link href="/" className="hover:text-blue-600">
           Beranda
         </Link>
-
         {/* Dropdown Tentang */}
         <div className="relative">
           <button
@@ -56,7 +61,6 @@ export const Navbar = () => {
             </div>
           )}
         </div>
-
         <Link href="/berita" className="hover:text-blue-600">
           Berita
         </Link>
@@ -66,9 +70,22 @@ export const Navbar = () => {
         <Link href="/kontak" className="hover:text-blue-600">
           Kontak
         </Link>
-        <Button variant="outline" className="hover:text-blue-600">
-          <Link href="/login">Login</Link>
-        </Button>
+        {!token ? (
+          <Button variant="outline" className="hover:text-blue-600">
+            <Link href="/login">Login</Link>
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            className="hover:text-red-600"
+            onClick={() => {
+              localStorage.removeItem("token");
+              setToken(null);
+            }}
+          >
+            Logout
+          </Button>
+        )}
       </div>
 
       {/* Mobile menu icon */}
